@@ -1,0 +1,41 @@
+# ---- Node / web ----
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# ---- Python / api ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+build/
+
+# ---- Env & secrets ----
+.env
+.env.*
+!.env.example
+
+# ---- Editors / OS ----
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Logs ----
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# ---- Claude local overrides ----
+.claude/settings.local.json
+
+# ---- Uploads / local media ----
+uploads/
+media/
