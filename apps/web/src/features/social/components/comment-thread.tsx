@@ -3,6 +3,7 @@ import { useActionState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { ReportAction } from "@/features/moderation/components/report-action";
 import type { RecipeStep } from "@/features/recipe/types/recipe-types";
 import { ApiError } from "@/lib/api-client";
 import { readField } from "@/lib/form-data";
@@ -100,6 +101,7 @@ export function CommentThread({
             </div>
             {/* Plain text on purpose: user prose is never linkified. */}
             <p className="whitespace-pre-line">{comment.body}</p>
+            {canPost ? <ReportAction targetType="comment" targetId={comment.id} /> : null}
           </li>
         ))}
       </ul>

@@ -16,6 +16,7 @@ from quecomemos.features.favorite.router import router as favorite_router
 from quecomemos.features.follow.router import router as follow_router
 from quecomemos.features.photo.router import router as photo_router
 from quecomemos.features.recipe.router import router as recipe_router
+from quecomemos.features.report.router import router as report_router
 from quecomemos.features.user.router import router as user_router
 
 logger = logging.getLogger(__name__)
@@ -62,6 +63,7 @@ def create_app() -> FastAPI:
     app.include_router(follow_router, prefix=settings.api_prefix)
     app.include_router(favorite_router, prefix=settings.api_prefix)
     app.include_router(comment_router, prefix=settings.api_prefix)
+    app.include_router(report_router, prefix=settings.api_prefix)
 
     return app
 

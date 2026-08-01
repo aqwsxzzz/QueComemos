@@ -81,9 +81,7 @@ async def list_for_recipe(db: AsyncSession, recipe_id: uuid.UUID) -> list[Photo]
 
 
 async def get(db: AsyncSession, photo_id: uuid.UUID) -> Photo:
-    photo = (
-        await db.execute(select(Photo).where(Photo.id == photo_id))
-    ).scalar_one_or_none()
+    photo = (await db.execute(select(Photo).where(Photo.id == photo_id))).scalar_one_or_none()
     if photo is None:
         raise NotFoundError("Foto no encontrada")
     return photo

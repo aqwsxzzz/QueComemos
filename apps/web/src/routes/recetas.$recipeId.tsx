@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/features/auth/store/auth-store";
+import { useBlockUser } from "@/features/moderation/api/moderation-queries";
+import { ReportAction } from "@/features/moderation/components/report-action";
 import { useRecipe } from "@/features/recipe/api/recipe-queries";
 import { PhotoUploader } from "@/features/recipe/components/photo-uploader";
 import { RecipeDetail } from "@/features/recipe/components/recipe-detail";
@@ -19,6 +21,7 @@ function RecipeDetailPage() {
   const currentUserId = useAuthStore((state) => state.user?.id);
   const { data: recipe } = useRecipe(recipeId);
   const [questionStepId, setQuestionStepId] = useState<string | undefined>(undefined);
+  const { mutate: blockAuthor } = useBlockUser();
 
   const isSignedIn = Boolean(currentUserId);
   const isAuthor = Boolean(recipe && currentUserId && recipe.author.id === currentUserId);
@@ -39,6 +42,17 @@ function RecipeDetailPage() {
       ) : null}
 
       {isAuthor && recipe ? <PhotoUploader recipeId={recipeId} steps={recipe.steps} /> : null}
+
+      {recipe && isSignedIn && !isAuthor ? (
+        <ReportAction
+          targetType="recipe"
+          targetId={recipeId}
+          authorId={recipe.author.id}
+          onBlock={() => {
+            blockAuthor(recipe.author.id);
+          }}
+        />
+      ) : null}
 
       {recipe ? (
         <>

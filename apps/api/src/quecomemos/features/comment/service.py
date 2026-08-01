@@ -28,9 +28,7 @@ async def _assert_step_belongs(db: AsyncSession, recipe_id: uuid.UUID, step_id: 
         raise ValidationError("Ese paso no pertenece a esta receta")
 
 
-async def create(
-    db: AsyncSession, author: User, recipe: Recipe, payload: CommentCreate
-) -> Comment:
+async def create(db: AsyncSession, author: User, recipe: Recipe, payload: CommentCreate) -> Comment:
     if payload.step_id is not None:
         await _assert_step_belongs(db, recipe.id, payload.step_id)
     if payload.kind is CommentKind.QUESTION and payload.step_id is None:

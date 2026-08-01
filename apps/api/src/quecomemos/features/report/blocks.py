@@ -30,9 +30,7 @@ async def blocked_user_ids(db: AsyncSession, user_id: uuid.UUID | None) -> set[u
     }
 
 
-async def is_blocked_between(
-    db: AsyncSession, first: uuid.UUID, second: uuid.UUID
-) -> bool:
+async def is_blocked_between(db: AsyncSession, first: uuid.UUID, second: uuid.UUID) -> bool:
     statement = select(Block.id).where(
         or_(
             (Block.blocker_id == first) & (Block.blocked_id == second),
