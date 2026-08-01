@@ -11,6 +11,7 @@ from quecomemos.core.config import Settings, get_settings
 from quecomemos.core.db import dispose_engine
 from quecomemos.core.errors import register_exception_handlers
 from quecomemos.features.auth.router import router as auth_router
+from quecomemos.features.photo.router import router as photo_router
 from quecomemos.features.recipe.router import router as recipe_router
 from quecomemos.features.user.router import router as user_router
 
@@ -54,6 +55,7 @@ def create_app() -> FastAPI:
     app.include_router(auth_router, prefix=settings.api_prefix)
     app.include_router(user_router, prefix=settings.api_prefix)
     app.include_router(recipe_router, prefix=settings.api_prefix)
+    app.include_router(photo_router, prefix=settings.api_prefix)
 
     return app
 
