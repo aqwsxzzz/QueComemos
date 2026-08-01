@@ -9,6 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from quecomemos.core.db import Base
 from quecomemos.core.mixins import SoftRemovalMixin, TimestampMixin, UUIDMixin
 from quecomemos.features.recipe.units import Unit
+from quecomemos.features.user.models import User
 
 
 class Recipe(UUIDMixin, TimestampMixin, SoftRemovalMixin, Base):
@@ -27,6 +28,9 @@ class Recipe(UUIDMixin, TimestampMixin, SoftRemovalMixin, Base):
     source_url: Mapped[str | None] = mapped_column(String(500), default=None)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
 
+    # lazy="raise" so a forgotten eager load fails loudly instead of emitting a
+    # lazy query inside async code.
+    author: Mapped[User] = relationship(lazy="raise")
     steps: Mapped[list[RecipeStep]] = relationship(
         back_populates="recipe", cascade="all, delete-orphan", order_by="RecipeStep.position"
     )

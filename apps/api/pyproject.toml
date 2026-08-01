@@ -45,6 +45,9 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "C90", "N", "ASYNC", "RUF"]
+# The product is Spanish-first and parses text people actually type, so real
+# typographic characters are content, not accidents.
+allowed-confusables = ["–", "—", "’", "‘", "“", "”"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 5

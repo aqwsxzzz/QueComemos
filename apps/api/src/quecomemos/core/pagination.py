@@ -1,7 +1,6 @@
 """Offset pagination: the `PageParams` dependency, the `Page[T]` envelope, and
 the single helper every list service uses to run a count + a window."""
 
-from fastapi import Query
 from pydantic import BaseModel
 from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -10,13 +9,13 @@ MAX_PAGE_SIZE = 100
 
 
 class PageParams:
-    """Query-param dependency. Kept a plain class so FastAPI reads the defaults."""
+    """The window a list query should return.
 
-    def __init__(
-        self,
-        page: int = Query(1, ge=1),
-        page_size: int = Query(20, ge=1, le=MAX_PAGE_SIZE),
-    ) -> None:
+    Built from a feature's FilterParams rather than injected on its own, so the
+    whole query string is validated by a single forbid-extras model.
+    """
+
+    def __init__(self, page: int = 1, page_size: int = 20) -> None:
         self.page = page
         self.page_size = page_size
 
