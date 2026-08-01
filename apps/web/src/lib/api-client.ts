@@ -73,3 +73,25 @@ export async function request<T>(
   }
   return schema.parse(await response.json());
 }
+
+/**
+ * Multipart upload. The Content-Type header is deliberately omitted so the
+ * browser sets it with the multipart boundary.
+ */
+export async function uploadFile<T>(
+  path: string,
+  schema: z.ZodType<T>,
+  form: FormData,
+  token: string,
+): Promise<T> {
+  const response = await fetch(`${API_URL}${path}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: form,
+  });
+
+  if (!response.ok) {
+    throw await toApiError(response);
+  }
+  return schema.parse(await response.json());
+}

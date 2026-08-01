@@ -19,25 +19,31 @@ function HomePage() {
         </p>
       </div>
 
-      {user ? (
-        <div className="space-y-3">
-          <p>
-            Hola, <span className="font-medium">{user.display_name}</span>.
-          </p>
-          <Button asChild>
-            <Link to="/perfil">Ver tu perfil</Link>
-          </Button>
-        </div>
-      ) : (
-        <div className="flex flex-wrap gap-3">
-          <Button asChild>
-            <Link to="/crear-cuenta">Crear cuenta</Link>
-          </Button>
+      <div className="flex flex-wrap gap-3">
+        <Button asChild>
+          <Link to="/recetas">Ver las recetas</Link>
+        </Button>
+        {user ? (
           <Button asChild variant="secondary">
-            <Link to="/entrar">Entrar</Link>
+            <Link to="/perfil">Tu perfil</Link>
           </Button>
-        </div>
-      )}
+        ) : (
+          <>
+            <Button asChild variant="secondary">
+              <Link to="/crear-cuenta">Crear cuenta</Link>
+            </Button>
+            <Button asChild variant="ghost">
+              <Link to="/entrar">Entrar</Link>
+            </Button>
+          </>
+        )}
+      </div>
+
+      {user ? (
+        <p className="text-muted-foreground">
+          Hola, <span className="font-medium text-foreground">{user.display_name}</span>.
+        </p>
+      ) : null}
     </main>
   );
 }

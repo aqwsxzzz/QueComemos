@@ -13,6 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CrearCuentaRouteImport } from './routes/crear-cuenta'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as RecetasIndexRouteImport } from './routes/recetas.index'
+import { Route as RecetasRecipeIdRouteImport } from './routes/recetas.$recipeId'
+import { Route as RecetasNuevaRouteImport } from './routes/recetas.nueva'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +37,39 @@ const PerfilRoute = PerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecetasIndexRoute = RecetasIndexRouteImport.update({
+  id: '/recetas/',
+  path: '/recetas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecetasRecipeIdRoute = RecetasRecipeIdRouteImport.update({
+  id: '/recetas/$recipeId',
+  path: '/recetas/$recipeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecetasNuevaRoute = RecetasNuevaRouteImport.update({
+  id: '/recetas/nueva',
+  path: '/recetas/nueva',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/crear-cuenta': typeof CrearCuentaRoute
   '/entrar': typeof EntrarRoute
   '/perfil': typeof PerfilRoute
+  '/recetas/$recipeId': typeof RecetasRecipeIdRoute
+  '/recetas/nueva': typeof RecetasNuevaRoute
+  '/recetas/': typeof RecetasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/crear-cuenta': typeof CrearCuentaRoute
   '/entrar': typeof EntrarRoute
   '/perfil': typeof PerfilRoute
+  '/recetas/$recipeId': typeof RecetasRecipeIdRoute
+  '/recetas/nueva': typeof RecetasNuevaRoute
+  '/recetas': typeof RecetasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +77,38 @@ export interface FileRoutesById {
   '/crear-cuenta': typeof CrearCuentaRoute
   '/entrar': typeof EntrarRoute
   '/perfil': typeof PerfilRoute
+  '/recetas/$recipeId': typeof RecetasRecipeIdRoute
+  '/recetas/nueva': typeof RecetasNuevaRoute
+  '/recetas/': typeof RecetasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/crear-cuenta' | '/entrar' | '/perfil'
+  fullPaths:
+    | '/'
+    | '/crear-cuenta'
+    | '/entrar'
+    | '/perfil'
+    | '/recetas/$recipeId'
+    | '/recetas/nueva'
+    | '/recetas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/crear-cuenta' | '/entrar' | '/perfil'
-  id: '__root__' | '/' | '/crear-cuenta' | '/entrar' | '/perfil'
+  to:
+    | '/'
+    | '/crear-cuenta'
+    | '/entrar'
+    | '/perfil'
+    | '/recetas/$recipeId'
+    | '/recetas/nueva'
+    | '/recetas'
+  id:
+    | '__root__'
+    | '/'
+    | '/crear-cuenta'
+    | '/entrar'
+    | '/perfil'
+    | '/recetas/$recipeId'
+    | '/recetas/nueva'
+    | '/recetas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +116,9 @@ export interface RootRouteChildren {
   CrearCuentaRoute: typeof CrearCuentaRoute
   EntrarRoute: typeof EntrarRoute
   PerfilRoute: typeof PerfilRoute
+  RecetasRecipeIdRoute: typeof RecetasRecipeIdRoute
+  RecetasNuevaRoute: typeof RecetasNuevaRoute
+  RecetasIndexRoute: typeof RecetasIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +151,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recetas/': {
+      id: '/recetas/'
+      path: '/recetas'
+      fullPath: '/recetas/'
+      preLoaderRoute: typeof RecetasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recetas/$recipeId': {
+      id: '/recetas/$recipeId'
+      path: '/recetas/$recipeId'
+      fullPath: '/recetas/$recipeId'
+      preLoaderRoute: typeof RecetasRecipeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recetas/nueva': {
+      id: '/recetas/nueva'
+      path: '/recetas/nueva'
+      fullPath: '/recetas/nueva'
+      preLoaderRoute: typeof RecetasNuevaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +180,9 @@ const rootRouteChildren: RootRouteChildren = {
   CrearCuentaRoute: CrearCuentaRoute,
   EntrarRoute: EntrarRoute,
   PerfilRoute: PerfilRoute,
+  RecetasRecipeIdRoute: RecetasRecipeIdRoute,
+  RecetasNuevaRoute: RecetasNuevaRoute,
+  RecetasIndexRoute: RecetasIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
