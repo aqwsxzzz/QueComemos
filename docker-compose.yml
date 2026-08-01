@@ -1,0 +1,75 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: quecomemos
+      POSTGRES_PASSWORD: quecomemos
+      POSTGRES_DB: quecomemos
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quecomemos"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: quecomemos
+      MINIO_ROOT_PASSWORD: quecomemos-dev-secret
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Creates the media bucket on first boot, then exits. Dev convenience only:
+  # in production the R2 bucket is created out of band.
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 quecomemos quecomemos-dev-secret &&
+      mc mb --ignore-existing local/quecomemos-media &&
+      mc anonymous set download local/quecomemos-media
+      "
+
+  app:
+    build:
+      context: ./apps/api
+    command: uv run uvicorn quecomemos.main:app --reload --host 0.0.0.0 --port 8000
+    environment:
+      DATABASE_URL: postgresql+asyncpg://quecomemos:quecomemos@db:5432/quecomemos
+      TEST_DATABASE_URL: postgresql+asyncpg://quecomemos:quecomemos@db:5432/quecomemos_test
+      JWT_SECRET: dev-secret-change-me
+      ALLOWED_ORIGINS: http://localhost:5173
+      STORAGE_ENDPOINT_URL: http://minio:9000
+      STORAGE_PUBLIC_URL: http://localhost:9000
+      STORAGE_ACCESS_KEY: quecomemos
+      STORAGE_SECRET_KEY: quecomemos-dev-secret
+      STORAGE_BUCKET: quecomemos-media
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./apps/api:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+volumes:
+  db_data:
+  minio_data:

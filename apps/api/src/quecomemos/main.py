@@ -1,0 +1,52 @@
+"""Application factory for the Que Comemos? API."""
+
+import logging
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from quecomemos.core.config import Settings, get_settings
+from quecomemos.core.db import dispose_engine
+
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    logger.info("api starting")
+    yield
+    await dispose_engine()
+    logger.info("api stopped")
+
+
+def _configure_cors(app: FastAPI, settings: Settings) -> None:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["*"],
+    )
+
+
+def create_app() -> FastAPI:
+    settings = get_settings()
+    app = FastAPI(
+        title="Que Comemos? API",
+        version="0.1.0",
+        docs_url=f"{settings.api_prefix}/docs",
+        openapi_url=f"{settings.api_prefix}/openapi.json",
+        lifespan=lifespan,
+    )
+    _configure_cors(app, settings)
+
+    @app.get(f"{settings.api_prefix}/health", tags=["health"])
+    async def health() -> dict[str, str]:
+        return {"status": "ok"}
+
+    return app
+
+
+app = create_app()
