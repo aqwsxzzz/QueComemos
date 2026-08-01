@@ -8,10 +8,11 @@ import uuid
 from enum import StrEnum
 
 from sqlalchemy import ForeignKey, String, Text, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from quecomemos.core.db import Base
 from quecomemos.core.mixins import SoftRemovalMixin, TimestampMixin, UUIDMixin
+from quecomemos.features.user.models import User
 
 
 class CommentKind(StrEnum):
@@ -39,3 +40,7 @@ class Comment(UUIDMixin, TimestampMixin, SoftRemovalMixin, Base):
     step_id: Mapped[uuid.UUID | None] = mapped_column(
         Uuid(as_uuid=True), ForeignKey("recipe_step.id", ondelete="CASCADE"), default=None
     )
+
+    # lazy="raise" so a missing eager load fails loudly rather than emitting a
+    # lazy query inside async code.
+    author: Mapped[User] = relationship(lazy="raise")
