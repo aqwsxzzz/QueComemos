@@ -9,6 +9,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from quecomemos.core.config import Settings, get_settings
 from quecomemos.core.db import dispose_engine
+from quecomemos.core.errors import register_exception_handlers
+from quecomemos.features.auth.router import router as auth_router
+from quecomemos.features.user.router import router as user_router
 
 logger = logging.getLogger(__name__)
 
@@ -41,10 +44,14 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     _configure_cors(app, settings)
+    register_exception_handlers(app)
 
     @app.get(f"{settings.api_prefix}/health", tags=["health"])
     async def health() -> dict[str, str]:
         return {"status": "ok"}
+
+    app.include_router(auth_router, prefix=settings.api_prefix)
+    app.include_router(user_router, prefix=settings.api_prefix)
 
     return app
 
