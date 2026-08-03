@@ -19,25 +19,20 @@ docs/       cross-cutting design docs
 
 ## Rule Priority Order
 
-1. App-level `CLAUDE.md` rules for the app you are editing
-2. Single Responsibility hard limits (below — applies to both apps)
+1. Installed skills in `.claude/skills/` — they own code-level craft (structure, size limits, framework idiom, SQL, security, testing technique)
+2. App-level `CLAUDE.md` rules for the app you are editing
 3. Contract discipline across the web/api boundary (below)
-4. Git workflow (below)
+4. Project delivery rules (below — validation, scope conventions, PR body)
+
+Where a skill and a local rule cover the same ground, **the skill wins**. Local rules exist to add what the skills cannot know about this project, not to restate them.
 
 ---
 
-## Single Responsibility — Hard Limits (both apps)
+## Code Structure
 
-| Metric | Max | Action |
-|--------|-----|--------|
-| File length | 200 lines | Split into smaller modules |
-| Function / method body | 30 lines | Extract helpers |
-| Component JSX return | 50 lines | Extract child components |
-| Function parameters | 3 | Use an options object / schema |
-| Nesting depth | 3 levels | Early returns or extracted helpers |
-| Cyclomatic complexity | 5 branches | Simplify or split |
+Owned by the `code-structure` skill (size limits, SRP, Rule of Three) and the `react` skill (component splitting, JSX return size). Do not restate those limits here.
 
-Pre-flight: can this file be described in one sentence without "and"? If no — split first.
+Pre-flight, still project policy: can this file be described in one sentence without "and"? If no — split first.
 
 ---
 
@@ -73,46 +68,31 @@ When facing a bug or limitation, prefer enhancing the system over a workaround. 
 
 ## Tests
 
+The `testing-best-practices` skill owns **how** a test is written. This section owns **when** one gets written — the two do not conflict.
+
 **Do not create, modify, or propose frontend tests** unless explicitly requested. Prefer lint + build + typecheck plus manual verification notes.
 
 **Backend tests are expected** for services, guards, and list endpoints — pytest, real Postgres, no DB mocking. See `apps/api/CLAUDE.md`.
+
+`/test-review` verifies existing tests actually catch regressions; it does not override the frontend rule above.
 
 ---
 
 ## Git Workflow
 
-### Branch Naming
+**`/ship` owns the pipeline** — commit → PR → merge → release, including branch naming, conventional commits, secret scanning, merge safety, semver and the changelog. Do not run those steps by hand.
 
-Format: `<type>/<short-kebab-description>`
+- `/ship` — interactive, confirms at each stage boundary
+- `/ship pr` — through PR creation, then stop
+- `/ship release` — the full pipeline (this replaces the old `--main` release mode)
 
-Allowed types: `feat`, `fix`, `refactor`, `chore`, `docs`, `style`, `perf`, `build`, `ci`, `test`
+The base branch is `development`; `/ship` detects it. Releases go `development` → `main`.
 
-- Description: lowercase, kebab-case, max 5 words
-- Always base new branches off `development` unless specified otherwise
-- Never branch directly off an existing feature branch unless explicitly requested
-- Branch type must match the commit type
-
-### Commit Messages (Conventional Commits)
-
-Format: `<type>(<scope>): <subject>`
-
-**Scope should name the app or feature** — `feat(api/recipe):`, `fix(web/auth):`, `chore(repo):` — so history stays readable in a monorepo.
-
-- Subject: imperative, concise, specific
-- Head line max 100 characters
-- Add body when context matters (why, impact, migration notes)
-- Only use `!` / `BREAKING CHANGE:` for truly breaking changes
-
-Commit workflow:
-1. `git status --short --branch`
-2. Review diffs
-3. Group related changes; avoid mixing unrelated concerns
-4. Run validation for **each app touched** (see below)
-5. Stage only intended files
-6. Commit with a conventional message
-7. Push
+Everything below is what `/ship` cannot infer about this repo. It still applies.
 
 ### Validation Before Commit
+
+`/ship` has **no validation stage** — run this before letting it commit.
 
 | Touched | Run |
 |---|---|
@@ -120,9 +100,36 @@ Commit workflow:
 | `apps/api` | `uv run ruff check && uv run mypy src && uv run pytest` |
 | Migrations | plus `uv run alembic upgrade head` against a scratch DB |
 
-### PR Workflow
+Backend commands run inside Docker: `docker compose exec app <command>`. Skip validation only when explicitly asked to.
 
-- **Development mode** (default): current branch → `development`
-- **Release mode** (`--main`): `development` → `main`
+### Monorepo Commit Scope
 
-PR body: Summary / What changed / Validation performed (type + status only, no logs) / Risks / Out-of-scope changes explained.
+Scope names the app and/or feature — `feat(api/recipe):`, `fix(web/auth):`, `chore(repo):`, `docs(product):` — so history stays readable. Head line max 100 characters.
+
+Split a change touching both apps for unrelated reasons into separate commits. One feature that legitimately spans both may be a single commit — scope it after the feature, not the apps.
+
+### PR Body
+
+Summary / What changed (grouped by app when it spans both) / Validation performed (type + status only, never logs or output) / Migrations (name the Alembic revisions, or `none`) / Risks / Out-of-scope changes explained.
+
+<!-- claude-skills:skill-evaluation:start -->
+## Skills
+
+BEFORE writing ANY code, you MUST:
+
+1. List EVERY skill available: check `.claude/skills/` (project) and `~/.claude/skills/` (global). The system-reminder's available-skills section is a hint, not the source of truth — if it's missing or empty, still check the directories.
+2. For each skill, write: [skill-name] → ACTIVATE / SKIP — [one-line reason]
+3. Call Skill(name) for every skill marked ACTIVATE
+4. Emit the literal token `[skills-checked]` on its own line
+5. Only THEN proceed to implementation
+
+A PreToolUse gate hook blocks Write/Edit/MultiEdit until the `[skills-checked]` token appears in your response since the most recent user prompt. The gate fires once per turn — the first blocked edit is the signal to evaluate skills, then retry. If you skip the evaluation, your response is INCOMPLETE and WRONG.
+<!-- claude-skills:skill-evaluation:end -->
+
+<!-- claude-skills:file-size:start -->
+## File Size Enforcement
+
+- **Never write a file longer than 200 lines of code.** If a file would exceed 200 lines, split it into smaller modules before writing.
+- This rule applies during skill evaluation: if the code you're about to write would exceed 200 lines in any single file, refactor into multiple files first.
+- Skill evaluation must check this limit as part of every ACTIVATE decision.
+<!-- claude-skills:file-size:end -->
