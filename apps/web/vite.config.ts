@@ -34,6 +34,13 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    // 5173 is Ovejitas and 5174 is DocTrack, so this project takes 5175 and all
+    // three can run at once. strictPort makes a clash fail loudly instead of
+    // drifting to another port and silently breaking the API's CORS allowlist.
+    port: 5175,
+    strictPort: true,
+    // Bind every interface so the dev server is reachable from outside its
+    // container; harmless when running on the host directly.
+    host: true,
   },
 });

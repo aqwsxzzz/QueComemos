@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     access_token_ttl_minutes: int = 15
     refresh_token_ttl_days: int = 7
 
-    allowed_origins: str = "http://localhost:5173"
+    allowed_origins: str = "http://localhost:5175"
 
     storage_endpoint_url: str | None = None
     storage_public_url: str | None = None
