@@ -1,0 +1,84 @@
+category: proteina
+items:
+  - name: pollo
+    aliases: [pollo entero, presa de pollo]
+  - name: pechuga de pollo
+    aliases: [pechugas de pollo, suprema de pollo]
+  - name: muslo de pollo
+    aliases: [pata muslo, contramuslo, muslos de pollo]
+  - name: pollo desmenuzado
+    aliases: [pollo deshilachado, pollo desmechado]
+  - name: carne picada
+    aliases: [carne molida, picadillo, carne picada de ternera]
+  - name: bife
+    aliases: [filete, bistec, churrasco]
+  - name: lomo
+    aliases: [solomillo, lomo de res]
+  - name: nalga
+    aliases: [peceto, bola de lomo, cuadril]
+  - name: osobuco
+    aliases: [ossobuco]
+  - name: costilla
+    aliases: [costillas, asado de tira, costillar]
+  - name: matambre
+    aliases: [malaya]
+  - name: cerdo
+    aliases: [carne de cerdo, puerco, chancho]
+  - name: bondiola
+    aliases: [aguja de cerdo, cabeza de lomo]
+  - name: panceta
+    aliases: [tocino, bacon, tocineta]
+  - name: chorizo
+    aliases: [chorizos]
+  - name: salchicha
+    aliases: [salchichas, viena]
+  - name: jamon cocido
+    aliases: [jamon york, jamon dulce]
+  - name: jamon crudo
+    aliases: [jamon serrano, prosciutto]
+  - name: cordero
+    aliases: [carne de cordero, borrego]
+  - name: pavo
+    aliases: [pava, pechuga de pavo]
+  - name: conejo
+    aliases: []
+  - name: higado
+    aliases: [higado de ternera]
+  - name: merluza
+    aliases: [filete de merluza]
+  - name: salmon
+    aliases: [salmon rosado]
+  - name: atun
+    aliases: [atun en lata, atun al natural]
+  - name: sardina
+    aliases: [sardinas]
+  - name: bacalao
+    aliases: []
+  - name: trucha
+    aliases: []
+  - name: corvina
+    aliases: []
+  - name: camaron
+    aliases: [camarones, gamba, gambas]
+  - name: langostino
+    aliases: [langostinos]
+  - name: calamar
+    aliases: [calamares, chipiron]
+  - name: pulpo
+    aliases: []
+  - name: mejillon
+    aliases: [mejillones, choro]
+  - name: almeja
+    aliases: [almejas]
+  - name: huevo
+    aliases: [huevos, huevo de gallina]
+  - name: clara de huevo
+    aliases: [claras, clara]
+  - name: yema de huevo
+    aliases: [yemas, yema]
+  - name: tofu
+    aliases: [queso de soja]
+  - name: seitan
+    aliases: []
+  - name: soja texturizada
+    aliases: [proteina vegetal texturizada, carne de soja]

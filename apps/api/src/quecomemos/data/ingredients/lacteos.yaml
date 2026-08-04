@@ -1,0 +1,44 @@
+category: lacteo
+items:
+  - name: leche
+    aliases: [leche entera, leche descremada, leche de vaca]
+  - name: leche condensada
+    aliases: []
+  - name: leche evaporada
+    aliases: []
+  - name: crema de leche
+    aliases: [nata, crema para batir, crema doble, nata liquida]
+  - name: crema agria
+    aliases: [nata agria, sour cream]
+  - name: yogur
+    aliases: [yoghurt, yogurt, yogur natural]
+  - name: manteca
+    aliases: [mantequilla]
+  - name: margarina
+    aliases: []
+  - name: queso rallado
+    aliases: [queso parmesano, parmesano, queso reggianito]
+  - name: queso cremoso
+    aliases: [queso fresco, queso blanco]
+  - name: queso crema
+    aliases: [philadelphia, queso untable]
+  - name: muzzarella
+    aliases: [mozzarella, queso mozzarella, muzarella]
+  - name: ricota
+    aliases: [ricotta, requeson]
+  - name: queso azul
+    aliases: [roquefort, gorgonzola]
+  - name: queso de cabra
+    aliases: []
+  - name: queso cheddar
+    aliases: [cheddar]
+  - name: queso provolone
+    aliases: [provolone, provoleta]
+  - name: dulce de leche
+    aliases: [manjar, cajeta, arequipe]
+  - name: leche de coco
+    aliases: []
+  - name: leche de almendras
+    aliases: [bebida de almendras]
+  - name: leche de avena
+    aliases: [bebida de avena]

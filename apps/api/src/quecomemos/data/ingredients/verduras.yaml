@@ -1,0 +1,120 @@
+# Verduras y hortalizas. `aliases` carries regional vocabulary; the seeder
+# normalizes both name and aliases with core.text.normalize_for_match.
+category: verdura
+items:
+  - name: tomate
+    aliases: [jitomate, tomate perita, tomate pera, tomate redondo]
+  - name: tomate cherry
+    aliases: [tomate cereza, cherry, tomatito]
+  - name: cebolla
+    aliases: [cebolla blanca, cebolla amarilla]
+  - name: cebolla morada
+    aliases: [cebolla roja, cebolla colorada]
+  - name: cebolla de verdeo
+    aliases: [cebolleta, cebollin, cebollino, cebolla china, cebolla larga]
+  - name: ajo
+    aliases: [diente de ajo, ajos]
+  - name: puerro
+    aliases: [poro, ajo puerro]
+  - name: papa
+    aliases: [patata, papas, patatas]
+  - name: batata
+    aliases: [boniato, camote, papa dulce]
+  - name: zanahoria
+    aliases: []
+  - name: zapallo
+    aliases: [calabaza, auyama, ahuyama, zapallo anco, calabaza butternut]
+  - name: zapallito
+    aliases: [zucchini, calabacin, calabacita]
+  - name: berenjena
+    aliases: []
+  - name: pimiento
+    aliases: [morron, aji morron, pimenton, chile dulce, pimiento rojo]
+  - name: aji
+    aliases: [chile, guindilla, aji picante]
+  - name: jalapeno
+    aliases: [chile jalapeno]
+  - name: choclo
+    aliases: [maiz, elote, mazorca, jojoto]
+  - name: arveja
+    aliases: [guisante, chicharo, alverja]
+  - name: chaucha
+    aliases: [ejote, vainita, judia verde, habichuela, poroto verde]
+  - name: lechuga
+    aliases: [lechuga criolla, lechuga romana, lechuga mantecosa]
+  - name: rucula
+    aliases: [rugula, arugula]
+  - name: espinaca
+    aliases: [espinacas]
+  - name: acelga
+    aliases: []
+  - name: repollo
+    aliases: [col, col blanca, repollo blanco]
+  - name: repollo colorado
+    aliases: [col morada, lombarda, repollo morado]
+  - name: brocoli
+    aliases: [brecol]
+  - name: coliflor
+    aliases: []
+  - name: apio
+    aliases: []
+  - name: pepino
+    aliases: [pepinillo]
+  - name: remolacha
+    aliases: [betabel, betarraga, beterraga]
+  - name: rabanito
+    aliases: [rabano, rabanitos]
+  - name: nabo
+    aliases: []
+  - name: hinojo
+    aliases: []
+  - name: alcaucil
+    aliases: [alcachofa]
+  - name: esparrago
+    aliases: [esparragos]
+  - name: champinon
+    aliases: [hongo, seta, champinones, hongos de paris]
+  - name: portobello
+    aliases: []
+  - name: palmito
+    aliases: [palmitos]
+  - name: palta
+    aliases: [aguacate, avocado]
+  - name: chaucha de soja
+    aliases: [edamame]
+  - name: jengibre
+    aliases: [kion]
+  - name: cilantro
+    aliases: [culantro, coriandro]
+  - name: perejil
+    aliases: []
+  - name: albahaca
+    aliases: [basilico]
+  - name: menta
+    aliases: [hierbabuena]
+  - name: romero
+    aliases: []
+  - name: tomillo
+    aliases: []
+  - name: laurel
+    aliases: [hoja de laurel]
+  - name: oregano
+    aliases: []
+  - name: salvia
+    aliases: []
+  - name: eneldo
+    aliases: []
+  - name: ciboulette
+    aliases: [cebollin frances, cebollino frances]
+  - name: germen de soja
+    aliases: [brotes de soja, brote de soja]
+  - name: mandioca
+    aliases: [yuca, casava, tapioca raiz]
+  - name: chayote
+    aliases: [chayota, guatila]
+  - name: nopal
+    aliases: [nopales]
+  - name: aceituna
+    aliases: [aceitunas, olivas]
+  - name: alcaparra
+    aliases: [alcaparras]

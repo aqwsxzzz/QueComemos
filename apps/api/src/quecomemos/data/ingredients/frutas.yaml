@@ -1,0 +1,74 @@
+category: fruta
+items:
+  - name: banana
+    aliases: [platano, guineo, cambur]
+  - name: manzana
+    aliases: [manzana verde, manzana roja]
+  - name: pera
+    aliases: []
+  - name: naranja
+    aliases: [naranjas]
+  - name: mandarina
+    aliases: [clementina, tangerina]
+  - name: limon
+    aliases: [limones]
+  - name: lima
+    aliases: [limon verde]
+  - name: pomelo
+    aliases: [toronja]
+  - name: frutilla
+    aliases: [fresa, fresas, frutillas]
+  - name: arandano
+    aliases: [arandanos, blueberry, mora azul]
+  - name: frambuesa
+    aliases: [frambuesas]
+  - name: mora
+    aliases: [moras, zarzamora]
+  - name: uva
+    aliases: [uvas]
+  - name: durazno
+    aliases: [melocoton, pelon]
+  - name: damasco
+    aliases: [albaricoque, chabacano]
+  - name: ciruela
+    aliases: [ciruelas]
+  - name: cereza
+    aliases: [cerezas, guinda]
+  - name: ananas
+    aliases: [pina, anana]
+  - name: mango
+    aliases: []
+  - name: papaya
+    aliases: [lechosa, mamon]
+  - name: melon
+    aliases: []
+  - name: sandia
+    aliases: [patilla]
+  - name: kiwi
+    aliases: []
+  - name: higo
+    aliases: [higos, breva]
+  - name: granada
+    aliases: []
+  - name: maracuya
+    aliases: [parchita, fruta de la pasion]
+  - name: coco
+    aliases: [coco rallado]
+  - name: datil
+    aliases: [datiles]
+  - name: pasa de uva
+    aliases: [pasas, uva pasa, pasas de uva]
+  - name: ciruela pasa
+    aliases: [ciruelas pasas]
+  - name: durazno en almibar
+    aliases: [melocoton en almibar]
+  - name: membrillo
+    aliases: [dulce de membrillo]
+  - name: guayaba
+    aliases: [guayabas]
+  - name: chirimoya
+    aliases: []
+  - name: tuna
+    aliases: [higo chumbo]
+  - name: caqui
+    aliases: [persimon, kaki]

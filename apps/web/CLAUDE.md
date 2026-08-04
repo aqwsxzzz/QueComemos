@@ -149,6 +149,6 @@ Do not create parallel duplicates (`recipe-api.ts` and `recipe.api.ts`). Keep na
 
 ## 8. User-Generated Content Rules
 
-- **Never auto-linkify user text.** External links exist only as the structured `source_url` field.
-- `source_url` renders through an interstitial, never as a direct navigation.
+- **Never auto-linkify user text.** The app renders no outbound links at all — there is no
+  `source_url` field and no interstitial. Reversed 2026-08-04; see the PRODUCT.md decisions table.
 - Every user-authored surface (recipe, comment) needs a reachable report action.

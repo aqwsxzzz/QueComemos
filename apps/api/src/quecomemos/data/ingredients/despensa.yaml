@@ -1,0 +1,118 @@
+category: despensa
+items:
+  - name: harina
+    aliases: [harina de trigo, harina 0000, harina comun, harina todo uso]
+  - name: harina leudante
+    aliases: [harina con polvo de hornear, harina bizcochona]
+  - name: harina integral
+    aliases: [harina de trigo integral]
+  - name: harina de maiz
+    aliases: [polenta, semola de maiz, harina pan]
+  - name: almidon de maiz
+    aliases: [maicena, fecula de maiz]
+  - name: pan rallado
+    aliases: [pan molido, migas de pan]
+  - name: avena
+    aliases: [copos de avena, avena arrollada, hojuelas de avena]
+  - name: arroz
+    aliases: [arroz blanco, arroz largo fino]
+  - name: arroz integral
+    aliases: []
+  - name: arroz arboreo
+    aliases: [arroz para risotto, arroz carnaroli]
+  - name: quinoa
+    aliases: [quinua]
+  - name: cuscus
+    aliases: [couscous, cus cus]
+  - name: fideos
+    aliases: [pasta, tallarines, spaghetti, espagueti]
+  - name: fideos cortos
+    aliases: [penne, mostachol, tirabuzon, rigatoni]
+  - name: lasagna
+    aliases: [placas de lasagna, laminas de lasana]
+  - name: noquis
+    aliases: [gnocchi, noqui]
+  - name: lenteja
+    aliases: [lentejas]
+  - name: garbanzo
+    aliases: [garbanzos]
+  - name: poroto
+    aliases: [frijol, judia, alubia, frijoles, porotos, habichuela seca]
+  - name: poroto negro
+    aliases: [frijol negro, caraota, frijoles negros]
+  - name: haba
+    aliases: [habas]
+  - name: pan
+    aliases: [pan frances, baguette, pan de miga]
+  - name: pan de molde
+    aliases: [pan lactal, pan de caja, pan sandwich]
+  - name: tortilla de trigo
+    aliases: [tortillas, wrap, rapiditas]
+  - name: tortilla de maiz
+    aliases: [tortillas de maiz]
+  - name: tapa de empanada
+    aliases: [tapas de empanada, disco de empanada]
+  - name: masa de tarta
+    aliases: [tapa de tarta, masa quebrada, masa brisee]
+  - name: masa de hojaldre
+    aliases: [hojaldre, masa hojaldrada]
+  - name: azucar
+    aliases: [azucar blanca, azucar comun]
+  - name: azucar rubia
+    aliases: [azucar morena, azucar mascabo, azucar negra]
+  - name: azucar impalpable
+    aliases: [azucar glass, azucar glas, azucar en polvo, azucar flor]
+  - name: miel
+    aliases: [miel de abeja]
+  - name: edulcorante
+    aliases: [stevia, sucralosa]
+  - name: sal
+    aliases: [sal fina, sal de mesa]
+  - name: sal gruesa
+    aliases: [sal marina, sal parrillera]
+  - name: pimienta
+    aliases: [pimienta negra, pimienta molida]
+  - name: polvo de hornear
+    aliases: [polvo para hornear, royal, levadura quimica]
+  - name: bicarbonato de sodio
+    aliases: [bicarbonato]
+  - name: levadura
+    aliases: [levadura seca, levadura fresca, levadura instantanea]
+  - name: gelatina sin sabor
+    aliases: [grenetina, gelatina neutra]
+  - name: cacao amargo
+    aliases: [cacao en polvo, cocoa]
+  - name: chocolate
+    aliases: [chocolate semiamargo, chocolate cobertura, chocolate negro]
+  - name: chip de chocolate
+    aliases: [chips de chocolate, gotas de chocolate]
+  - name: esencia de vainilla
+    aliases: [extracto de vainilla, vainilla]
+  - name: caldo de verduras
+    aliases: [caldo vegetal, cubito de verdura]
+  - name: caldo de pollo
+    aliases: [cubito de pollo, fondo de pollo]
+  - name: tomate triturado
+    aliases: [pure de tomate, tomate perita en lata, passata]
+  - name: extracto de tomate
+    aliases: [concentrado de tomate, pasta de tomate]
+  - name: salsa de soja
+    aliases: [soja salsa, shoyu, salsa de soya]
+  - name: mostaza
+    aliases: [mostaza dijon]
+  - name: mayonesa
+    aliases: []
+  - name: ketchup
+    aliases: [salsa de tomate dulce, catsup]
+  - name: vinagre
+    aliases: [vinagre de alcohol, vinagre blanco]
+  - name: vinagre de manzana
+    aliases: []
+  - name: vinagre balsamico
+    aliases: [aceto balsamico, aceto]
+  - name: aceite
+    aliases: [aceite de girasol, aceite neutro, aceite vegetal]
+  - name: aceite de oliva
+    aliases: [oliva extra virgen, aceite de oliva extra virgen]
+  - name: aceite de sesamo
+    aliases: [aceite de ajonjoli]

@@ -1,0 +1,82 @@
+category: condimento
+items:
+  - name: comino
+    aliases: []
+  - name: pimenton dulce
+    aliases: [paprika, pimenton]
+  - name: pimenton ahumado
+    aliases: [paprika ahumada]
+  - name: curry
+    aliases: [curry en polvo]
+  - name: curcuma
+    aliases: [turmeric, palillo]
+  - name: canela
+    aliases: [canela en polvo, rama de canela]
+  - name: nuez moscada
+    aliases: []
+  - name: clavo de olor
+    aliases: [clavos de olor]
+  - name: anis estrellado
+    aliases: [anis]
+  - name: cardamomo
+    aliases: []
+  - name: azafran
+    aliases: []
+  - name: aji molido
+    aliases: [chile en polvo, aji en polvo, hojuelas de chile]
+  - name: provenzal
+    aliases: [mezcla provenzal, hierbas provenzales]
+  - name: hierbas finas
+    aliases: [finas hierbas]
+  - name: chimichurri
+    aliases: []
+  - name: sesamo
+    aliases: [ajonjoli, semillas de sesamo]
+  - name: semilla de girasol
+    aliases: [semillas de girasol, pipas]
+  - name: semilla de zapallo
+    aliases: [semillas de calabaza, pepitas]
+  - name: chia
+    aliases: [semillas de chia]
+  - name: lino
+    aliases: [semillas de lino, linaza]
+  - name: nuez
+    aliases: [nueces]
+  - name: almendra
+    aliases: [almendras]
+  - name: mani
+    aliases: [cacahuate, cacahuete, manies]
+  - name: castana de caju
+    aliases: [anacardo, maranon, castanas de caju]
+  - name: avellana
+    aliases: [avellanas]
+  - name: pistacho
+    aliases: [pistachos]
+  - name: nuez pecan
+    aliases: [pecana, nueces pecan]
+  - name: mantequilla de mani
+    aliases: [manteca de mani, crema de cacahuate]
+  - name: tahini
+    aliases: [pasta de sesamo, tahina]
+  - name: vino blanco
+    aliases: []
+  - name: vino tinto
+    aliases: []
+  - name: cerveza
+    aliases: []
+  - name: cafe
+    aliases: [cafe molido, cafe instantaneo]
+  - name: te
+    aliases: [te negro, te verde]
+  - name: agua
+    aliases: [agua fria, agua tibia, agua caliente]
+  - name: agua con gas
+    aliases: [soda, agua mineral con gas]
+  - name: jugo de naranja
+    aliases: [zumo de naranja]
+  - name: jugo de limon
+    aliases: [zumo de limon]
+  - name: ralladura de limon
+    aliases: [cascara de limon rallada]
+  - name: ralladura de naranja
+    aliases: [cascara de naranja rallada]

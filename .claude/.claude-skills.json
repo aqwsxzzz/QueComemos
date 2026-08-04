@@ -1,0 +1,42 @@
+{
+  "catalogVersion": "2.7.0",
+  "installedAt": "2026-08-03T13:14:42.519Z",
+  "skills": [
+    "code-structure",
+    "debugging",
+    "docker-best-practices",
+    "fastapi",
+    "react",
+    "security-practices",
+    "sql",
+    "tanstack-query",
+    "tanstack-router",
+    "testing-best-practices",
+    "typescript-best-practices"
+  ],
+  "commands": [
+    "deep-review.md",
+    "lockdown.md",
+    "plan-feature.md",
+    "preplan.md",
+    "refactor.md",
+    "ship.md",
+    "test-review.md"
+  ],
+  "agents": [
+    "deep-review-cross-table.md",
+    "deep-review-dead-reference.md",
+    "deep-review-guard-bypass.md",
+    "deep-review-protocol-conformance.md",
+    "deep-review-state-persistence.md",
+    "plan-feature-pattern.md",
+    "plan-feature-reuse.md",
+    "plan-feature-touch-points.md",
+    "refactor-complexity.md",
+    "refactor-coupling.md",
+    "refactor-duplication.md",
+    "refactor-size.md",
+    "test-review-gates.md",
+    "test-review-quality.md"
+  ]
+}
