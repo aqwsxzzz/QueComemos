@@ -7,7 +7,10 @@ import type { RecipeSummary } from "../types/recipe-types";
 
 export function RecipeCard({ recipe }: { recipe: RecipeSummary }): React.JSX.Element {
   return (
-    <Card className="transition-colors hover:border-primary/40">
+    // `relative` is load-bearing: the title link below paints an overlay with
+    // after:inset-0, and without a positioned ancestor that overlay resolves
+    // against the viewport and swallows every click on the page.
+    <Card className="relative transition-colors hover:border-primary/40">
       <CardHeader>
         <CardTitle className="text-lg leading-snug">
           <Link
