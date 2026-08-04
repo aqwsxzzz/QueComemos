@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,8 +15,19 @@ export const Route = createFileRoute("/perfil")({
 });
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const { data: user, isPending, isError } = useMe();
   const { mutate: signOut, isPending: signingOut } = useLogout();
+
+  // beforeLoad only runs when a route is entered, so clearing the session does
+  // not by itself move anyone off this page — the sign-out has to navigate.
+  function handleSignOut(): void {
+    signOut(undefined, {
+      onSettled: () => {
+        void navigate({ to: "/entrar" });
+      },
+    });
+  }
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-10">
@@ -43,14 +54,8 @@ function ProfilePage() {
               </div>
             </dl>
           ) : null}
-          <Button
-            variant="secondary"
-            onClick={() => {
-              signOut();
-            }}
-            disabled={signingOut}
-          >
-            Cerrar sesión
+          <Button variant="secondary" onClick={handleSignOut} disabled={signingOut}>
+            {signingOut ? "Cerrando…" : "Cerrar sesión"}
           </Button>
         </CardContent>
       </Card>
