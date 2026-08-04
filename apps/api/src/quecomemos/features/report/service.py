@@ -6,6 +6,7 @@ import uuid
 from sqlalchemy import delete, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from quecomemos.core.errors import ConflictError, NotFoundError, ValidationError
 from quecomemos.core.filters import apply_sort
@@ -99,7 +100,17 @@ async def block(db: AsyncSession, blocker: User, blocked_id: uuid.UUID) -> Block
         )
     )
     await db.commit()
-    await db.refresh(entry)
+    return await _get_with_cook(db, entry.id)
+
+
+async def _get_with_cook(db: AsyncSession, block_id: uuid.UUID) -> Block:
+    """Re-reads with the cook eager-loaded — `Block.blocked` is lazy="raise"."""
+    statement = (
+        select(Block).where(Block.id == block_id).options(selectinload(Block.blocked))
+    )
+    entry = (await db.execute(statement)).scalar_one_or_none()
+    if entry is None:
+        raise NotFoundError("Bloqueo no encontrado")
     return entry
 
 
@@ -111,5 +122,10 @@ async def unblock(db: AsyncSession, blocker: User, blocked_id: uuid.UUID) -> Non
 
 
 async def list_blocks(db: AsyncSession, blocker: User) -> list[Block]:
-    statement = select(Block).where(Block.blocker_id == blocker.id).order_by(Block.created_at)
+    statement = (
+        select(Block)
+        .where(Block.blocker_id == blocker.id)
+        .options(selectinload(Block.blocked))
+        .order_by(Block.created_at)
+    )
     return list((await db.execute(statement)).scalars().all())

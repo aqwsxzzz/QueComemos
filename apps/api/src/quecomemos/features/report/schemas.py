@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from quecomemos.core.filters import FilterParams
 from quecomemos.features.report.models import ReportReason, ReportStatus, ReportTarget
+from quecomemos.features.user.schemas import CookRead
 
 
 class ReportCreate(BaseModel):
@@ -48,8 +49,11 @@ class BlockCreate(BaseModel):
 
 
 class BlockRead(BaseModel):
+    """Carries the blocked cook so the list can render a name, not a UUID."""
+
     model_config = ConfigDict(from_attributes=True, extra="forbid")
 
     id: uuid.UUID
     blocked_id: uuid.UUID
+    blocked: CookRead
     created_at: datetime
