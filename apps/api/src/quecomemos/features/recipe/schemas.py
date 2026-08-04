@@ -81,6 +81,9 @@ class RecipeSummary(BaseModel):
     minutes: int | None
     published_at: datetime | None
     author: CookRead
+    # How many cooks saved this. Public on purpose — see the PRODUCT.md
+    # decisions table. There is no separate "like": saving is the signal.
+    favorites_count: int
 
 
 class RecipeRead(RecipeSummary):

@@ -1,9 +1,10 @@
 """Favorite business logic."""
 
 import uuid
+from typing import Any, cast
 
-from sqlalchemy import delete, select
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import CursorResult, Result, delete, select, update
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -18,19 +19,50 @@ from quecomemos.features.report import blocks
 from quecomemos.features.user.models import User
 
 
+def _rowcount(result: Result[Any]) -> int:
+    """`execute` is typed as returning Result; only CursorResult carries the
+    affected-row count that DML actually produces."""
+    return cast("CursorResult[Any]", result).rowcount
+
+
+async def _shift_count(db: AsyncSession, recipe_id: uuid.UUID, delta: int) -> None:
+    """Moves the denormalized counter by `delta` as one SQL expression.
+
+    Read-modify-write in Python would lose an increment whenever two people
+    save the same recipe at the same time.
+    """
+    await db.execute(
+        update(Recipe)
+        .where(Recipe.id == recipe_id)
+        .values(favorites_count=Recipe.favorites_count + delta)
+    )
+
+
 async def add(db: AsyncSession, user: User, recipe_id: uuid.UUID) -> None:
-    """Idempotent: saving something twice is the same as saving it once."""
-    db.add(Favorite(user_id=user.id, recipe_id=recipe_id))
-    try:
-        await db.commit()
-    except IntegrityError:
-        await db.rollback()
+    """Idempotent: saving something twice is the same as saving it once.
+
+    ON CONFLICT DO NOTHING rather than catch-IntegrityError so the insert and
+    the counter bump commit together — a rolled-back insert must not leave the
+    count incremented.
+    """
+    statement = (
+        pg_insert(Favorite)
+        .values(user_id=user.id, recipe_id=recipe_id)
+        .on_conflict_do_nothing(constraint="uq_favorite_pair")
+    )
+    if _rowcount(await db.execute(statement)) == 1:
+        await _shift_count(db, recipe_id, 1)
+    await db.commit()
 
 
 async def remove(db: AsyncSession, user: User, recipe_id: uuid.UUID) -> None:
-    await db.execute(
+    """Only decrements when a row actually went away, so the count never
+    drifts negative on a repeated unsave."""
+    deleted = await db.execute(
         delete(Favorite).where(Favorite.user_id == user.id, Favorite.recipe_id == recipe_id)
     )
+    if _rowcount(deleted) == 1:
+        await _shift_count(db, recipe_id, -1)
     await db.commit()
 
 
