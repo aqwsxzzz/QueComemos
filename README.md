@@ -24,12 +24,17 @@ docs/        cross-cutting design documents
 
 ## Status
 
-**Phase A (recipes & community) is implemented.** Accounts, recipe authoring with
-structured ingredients, process photos, the public pool with server-side search and
-pagination, follows, favorites, comments (including step-level questions), and
-moderation — reports, blocks and takedowns.
+**Phase A (recipes & community) is complete, front to back.** Accounts, recipe
+authoring with structured ingredients, editing and deletion, process photos, the
+public pool with server-side search plus ingredient and duration filters, cook
+profiles, follows and follower lists, favorites with a public saved-count,
+comments (including step-level questions), and moderation — reports, blocks with
+an unblock screen, and takedowns.
 
-Phase C (meal planning + shopping list) is next. Phase B (pantry) stays cut.
+One deliberate gap: the moderation **queue** (listing and resolving reports,
+takedowns) is API-only — see the PRODUCT.md decisions table.
+
+V1 is next, then phase C (meal planning + shopping list). Phase B (pantry) stays cut.
 
 ## Development
 

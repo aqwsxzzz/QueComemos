@@ -85,13 +85,20 @@ they have, and it doesn't try to.
 | Users never create canonical ingredients | They type free text; matching happens behind the scenes |
 | No external links at all | Reversed 2026-08-04. Originally a constrained `source_url` (allowlist, no previews, interstitial). Removed because the product is the food *you* cook — a recipe that points elsewhere is a link post, and the pool fills with traffic to other sites instead of home cooking. User text was never linkified and still isn't. |
 | Moderation from day one | A public pool with photos needs it regardless of store rules |
+| Saving is the popularity signal — no separate like or star | Decided 2026-08-04. A favorite already means "I want to cook this", which is a stronger endorsement than a like; a second signal splits it for no gain. Star ratings are rejected on tone: scoring a neighbour's Tuesday pasta out of five is the critic's-instrument vibe this product exists to avoid. If more nuance is ever needed it must stay positive-only. |
+| Favorite counts are public | Consequence of the row above, and a real change to an existing private action: "Guardadas" stays private as a *list*, but the per-recipe total is shown to everyone. Acceptable here because saving a recipe isn't a compromising act — but it was a deliberate call, not a side effect. |
+| Moderation queue is API-only for now | Reports, resolutions and takedowns have endpoints but no web screens. With a single maintainer, the API docs are an adequate console. Build the UI when there is a second moderator, not before. |
 | Deferred: private messages | Comments + the "help me out" flow probably cover the need. Revisit only if real usage shows otherwise. |
 
 ## Open questions
 
 - Does "help me out" need to be a distinct entity, or is it a comment with a flag and a link to a step?
-- Discovery: what ranks the pool? Recency is the honest v1 answer.
-- Does a recipe need explicit servings/scaling in phase A, or is that a phase C concern?
+  - *Answered in practice:* it shipped as a comment with `kind="question"` and a nullable `step_id`. Revisit only if the flow needs its own lifecycle (resolved/unresolved).
+
+**Closed:**
+
+- ~~Discovery: what ranks the pool?~~ Recency (`-published_at`) is the default and stays that way. A popularity sort over `favorites_count` is a post-V1 opt-in: ranking by saves in a pool with a handful of recipes shows nothing useful and compounds a head start from the very first upload. The counter is being collected now so the data exists when the sort lands.
+- ~~Does a recipe need explicit servings/scaling in phase A?~~ Yes for servings — it's on the recipe and rendered. *Scaling* (recomputing quantities for a different serving count) is phase C, and needs the structured-quantity path to be reliable first.
 
 ## Non-goals
 
