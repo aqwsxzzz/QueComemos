@@ -38,6 +38,13 @@ function RecipeDetailPage() {
         <div className="flex flex-wrap gap-2">
           <FavoriteButton recipeId={recipeId} />
           {!isAuthor ? <FollowButton cookId={recipe.author.id} /> : null}
+          {isAuthor ? (
+            <Button asChild variant="secondary" size="sm">
+              <Link to="/recetas/$recipeId/editar" params={{ recipeId }}>
+                Editar
+              </Link>
+            </Button>
+          ) : null}
         </div>
       ) : null}
 

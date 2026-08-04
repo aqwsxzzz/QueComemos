@@ -1,6 +1,6 @@
 import { useReducer, type Dispatch } from "react";
 
-import type { RecipeDraft } from "../types/recipe-types";
+import type { Recipe, RecipeDraft } from "../types/recipe-types";
 
 export interface DraftState {
   title: string;
@@ -25,6 +25,18 @@ export const EMPTY_DRAFT: DraftState = {
   ingredients: ["", "", ""],
   steps: ["", ""],
 };
+
+/** Seeds the editor from a saved recipe. Empty numbers render as empty inputs. */
+export function toDraftState(recipe: Recipe): DraftState {
+  return {
+    title: recipe.title,
+    intro: recipe.intro ?? "",
+    servings: recipe.servings === null ? "" : String(recipe.servings),
+    minutes: recipe.minutes === null ? "" : String(recipe.minutes),
+    ingredients: recipe.ingredients.map((ingredient) => ingredient.raw_text),
+    steps: recipe.steps.map((step) => step.text),
+  };
+}
 
 function replaceAt(values: string[], index: number, value: string): string[] {
   return values.map((current, position) => (position === index ? value : current));

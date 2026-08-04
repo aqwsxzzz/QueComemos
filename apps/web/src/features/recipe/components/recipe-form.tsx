@@ -1,11 +1,10 @@
-import { useNavigate } from "@tanstack/react-router";
 import { useActionState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ApiError } from "@/lib/api-client";
 
-import { useCreateRecipe } from "../api/recipe-queries";
-import { toPayload, useRecipeDraft } from "../hooks/use-recipe-draft";
+import { toPayload, useRecipeDraft, type DraftState } from "../hooks/use-recipe-draft";
+import type { RecipeDraft } from "../types/recipe-types";
 import { DraftLines } from "./draft-lines";
 import { RecipeBasics } from "./recipe-basics";
 
@@ -15,15 +14,30 @@ interface FormState {
 
 const EMPTY: FormState = { error: null };
 
+interface RecipeFormProps {
+  /** Seeds the editor. Omit for a blank recipe. */
+  initial?: DraftState | undefined;
+  submitLabel: string;
+  pendingLabel: string;
+  /**
+   * Saves the draft and navigates. A callback rather than an `isEditing` flag:
+   * creating and updating are two operations, not one with a mode switch.
+   */
+  onSave: (payload: RecipeDraft) => Promise<void>;
+}
+
 /**
  * Authoring is the one flow that has to be comfortable on a large screen, so
  * the whole recipe is one page rather than a mobile-style wizard. It stays
  * usable on a phone because the sections simply stack.
  */
-export function RecipeForm(): React.JSX.Element {
-  const navigate = useNavigate();
-  const [draft, dispatch] = useRecipeDraft();
-  const { mutateAsync } = useCreateRecipe();
+export function RecipeForm({
+  initial,
+  submitLabel,
+  pendingLabel,
+  onSave,
+}: RecipeFormProps): React.JSX.Element {
+  const [draft, dispatch] = useRecipeDraft(initial);
 
   const [state, submit, pending] = useActionState<FormState>(async () => {
     const payload = toPayload(draft);
@@ -31,8 +45,7 @@ export function RecipeForm(): React.JSX.Element {
       return { error: "Hace falta al menos un ingrediente y un paso." };
     }
     try {
-      const recipe = await mutateAsync(payload);
-      await navigate({ to: "/recetas/$recipeId", params: { recipeId: recipe.id } });
+      await onSave(payload);
       return EMPTY;
     } catch (error) {
       if (error instanceof ApiError) {
@@ -72,7 +85,7 @@ export function RecipeForm(): React.JSX.Element {
       ) : null}
 
       <Button type="submit" size="lg" disabled={pending}>
-        {pending ? "Publicando…" : "Publicar receta"}
+        {pending ? pendingLabel : submitLabel}
       </Button>
     </form>
   );
