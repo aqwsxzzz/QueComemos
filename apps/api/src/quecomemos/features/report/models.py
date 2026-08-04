@@ -8,10 +8,11 @@ import uuid
 from enum import StrEnum
 
 from sqlalchemy import ForeignKey, String, Text, UniqueConstraint, Uuid
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from quecomemos.core.db import Base
 from quecomemos.core.mixins import TimestampMixin, UUIDMixin
+from quecomemos.features.user.models import User
 
 
 class ReportTarget(StrEnum):
@@ -61,3 +62,8 @@ class Block(UUIDMixin, TimestampMixin, Base):
     blocked_id: Mapped[uuid.UUID] = mapped_column(
         Uuid(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE"), index=True, nullable=False
     )
+
+    # The blocked-users screen needs a name to show. Without this the client
+    # would fetch each cook separately — one request per row.
+    # lazy="raise" so a forgotten eager load fails loudly in async code.
+    blocked: Mapped[User] = relationship(foreign_keys=[blocked_id], lazy="raise")

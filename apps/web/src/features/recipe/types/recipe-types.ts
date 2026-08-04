@@ -31,10 +31,11 @@ export const recipeSummarySchema = z.object({
   minutes: z.number().nullable(),
   published_at: z.string().nullable(),
   author: cookSchema,
+  /** How many cooks saved it. Saving is the popularity signal — there is no separate "like". */
+  favorites_count: z.number(),
 });
 
 export const recipeSchema = recipeSummarySchema.extend({
-  source_url: z.string().nullable(),
   ingredients: z.array(recipeIngredientSchema),
   steps: z.array(recipeStepSchema),
 });
@@ -74,7 +75,6 @@ export interface RecipeDraft {
   intro: string | null;
   servings: number | null;
   minutes: number | null;
-  source_url: string | null;
   ingredients: { raw_text: string }[];
   steps: { text: string }[];
 }
@@ -82,5 +82,6 @@ export interface RecipeDraft {
 export interface PoolQuery {
   q?: string | undefined;
   author_id?: string | undefined;
+  ingredient_id?: string | undefined;
   max_minutes?: number | undefined;
 }

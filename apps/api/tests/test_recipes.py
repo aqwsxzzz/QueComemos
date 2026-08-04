@@ -119,22 +119,19 @@ async def test_create_rejects_incomplete_recipes(
     assert response.status_code == 422
 
 
-async def test_source_url_must_be_on_the_allowlist(client: AsyncClient, api_prefix: str) -> None:
+async def test_recipes_carry_no_outbound_links(client: AsyncClient, api_prefix: str) -> None:
+    """Links were removed from the product: the API must reject them outright."""
     session = await _account(client, api_prefix, "ana@example.com")
 
-    blocked = await client.post(
-        f"{api_prefix}/recipes",
-        json={**RECIPE, "source_url": "https://sitio-cualquiera.example/receta"},
-        headers=_auth(session),
-    )
-    allowed = await client.post(
+    response = await client.post(
         f"{api_prefix}/recipes",
         json={**RECIPE, "source_url": "https://www.youtube.com/watch?v=abc"},
         headers=_auth(session),
     )
 
-    assert blocked.status_code == 422
-    assert allowed.status_code == 201
+    assert response.status_code == 422
+    created = await client.post(f"{api_prefix}/recipes", json=RECIPE, headers=_auth(session))
+    assert "source_url" not in created.json()
 
 
 async def test_pool_is_readable_without_a_token(client: AsyncClient, api_prefix: str) -> None:

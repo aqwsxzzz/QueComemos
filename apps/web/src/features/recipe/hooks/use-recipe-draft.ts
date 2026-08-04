@@ -1,19 +1,18 @@
 import { useReducer, type Dispatch } from "react";
 
-import type { RecipeDraft } from "../types/recipe-types";
+import type { Recipe, RecipeDraft } from "../types/recipe-types";
 
 export interface DraftState {
   title: string;
   intro: string;
   servings: string;
   minutes: string;
-  sourceUrl: string;
   ingredients: string[];
   steps: string[];
 }
 
 export type DraftAction =
-  | { type: "field"; field: "title" | "intro" | "servings" | "minutes" | "sourceUrl"; value: string }
+  | { type: "field"; field: "title" | "intro" | "servings" | "minutes"; value: string }
   | { type: "line"; list: "ingredients" | "steps"; index: number; value: string }
   | { type: "add"; list: "ingredients" | "steps" }
   | { type: "remove"; list: "ingredients" | "steps"; index: number };
@@ -23,10 +22,21 @@ export const EMPTY_DRAFT: DraftState = {
   intro: "",
   servings: "",
   minutes: "",
-  sourceUrl: "",
   ingredients: ["", "", ""],
   steps: ["", ""],
 };
+
+/** Seeds the editor from a saved recipe. Empty numbers render as empty inputs. */
+export function toDraftState(recipe: Recipe): DraftState {
+  return {
+    title: recipe.title,
+    intro: recipe.intro ?? "",
+    servings: recipe.servings === null ? "" : String(recipe.servings),
+    minutes: recipe.minutes === null ? "" : String(recipe.minutes),
+    ingredients: recipe.ingredients.map((ingredient) => ingredient.raw_text),
+    steps: recipe.steps.map((step) => step.text),
+  };
+}
 
 function replaceAt(values: string[], index: number, value: string): string[] {
   return values.map((current, position) => (position === index ? value : current));
@@ -64,7 +74,6 @@ export function toPayload(state: DraftState): RecipeDraft {
     intro: state.intro.trim() || null,
     servings: toNumber(state.servings),
     minutes: toNumber(state.minutes),
-    source_url: state.sourceUrl.trim() || null,
     ingredients: state.ingredients
       .map((raw_text) => raw_text.trim())
       .filter(Boolean)

@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,8 +15,19 @@ export const Route = createFileRoute("/perfil")({
 });
 
 function ProfilePage() {
+  const navigate = useNavigate();
   const { data: user, isPending, isError } = useMe();
   const { mutate: signOut, isPending: signingOut } = useLogout();
+
+  // beforeLoad only runs when a route is entered, so clearing the session does
+  // not by itself move anyone off this page — the sign-out has to navigate.
+  function handleSignOut(): void {
+    signOut(undefined, {
+      onSettled: () => {
+        void navigate({ to: "/entrar" });
+      },
+    });
+  }
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-10">
@@ -43,14 +54,27 @@ function ProfilePage() {
               </div>
             </dl>
           ) : null}
-          <Button
-            variant="secondary"
-            onClick={() => {
-              signOut();
-            }}
-            disabled={signingOut}
-          >
-            Cerrar sesión
+
+          {/* The nav bar is full on phones, so the less-used surfaces hang off
+              the profile page rather than adding a fifth thumb target. */}
+          <nav className="flex flex-col gap-2" aria-label="Tu cuenta">
+            {user ? (
+              <Button asChild variant="secondary" className="justify-start">
+                <Link to="/cocineros/$cookId" params={{ cookId: user.id }}>
+                  Ver tu perfil público
+                </Link>
+              </Button>
+            ) : null}
+            <Button asChild variant="secondary" className="justify-start">
+              <Link to="/comunidad">Tu comunidad</Link>
+            </Button>
+            <Button asChild variant="secondary" className="justify-start">
+              <Link to="/bloqueados">Bloqueados</Link>
+            </Button>
+          </nav>
+
+          <Button variant="secondary" onClick={handleSignOut} disabled={signingOut}>
+            {signingOut ? "Cerrando…" : "Cerrar sesión"}
           </Button>
         </CardContent>
       </Card>

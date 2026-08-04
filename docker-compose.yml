@@ -16,7 +16,7 @@ services:
       retries: 10
 
   minio:
-    image: minio/minio:latest
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: quecomemos
@@ -35,7 +35,7 @@ services:
   # Creates the media bucket on first boot, then exits. Dev convenience only:
   # in production the R2 bucket is created out of band.
   minio-init:
-    image: minio/mc:latest
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
     depends_on:
       minio:
         condition: service_healthy
@@ -54,7 +54,8 @@ services:
       DATABASE_URL: postgresql+asyncpg://quecomemos:quecomemos@db:5432/quecomemos
       TEST_DATABASE_URL: postgresql+asyncpg://quecomemos:quecomemos@db:5432/quecomemos_test
       JWT_SECRET: dev-secret-change-me
-      ALLOWED_ORIGINS: http://localhost:5173
+      # Must track the web service's port below, or the browser gets a CORS wall.
+      ALLOWED_ORIGINS: http://localhost:5175
       STORAGE_ENDPOINT_URL: http://minio:9000
       STORAGE_PUBLIC_URL: http://localhost:9000
       STORAGE_ACCESS_KEY: quecomemos
@@ -62,13 +63,64 @@ services:
       STORAGE_BUCKET: quecomemos-media
     ports:
       - "8000:8000"
+    # Bind mount rather than Compose Watch on purpose: pytest, mypy and alembic
+    # are run with `docker compose exec`, and they must see host edits without a
+    # sync step. Python has no node_modules to shadow, so the usual objection
+    # does not apply here.
     volumes:
       - ./apps/api:/app
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')\""
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     depends_on:
       db:
         condition: service_healthy
       minio:
         condition: service_healthy
+
+  web:
+    build:
+      context: ./apps/web
+      target: dev
+    # The browser calls the API, not the container, so this is the host URL.
+    environment:
+      VITE_API_URL: http://localhost:8000/api/v1
+    # 5173 belongs to Ovejitas and 5174 to DocTrack; this project uses 5175 so
+    # all three can run side by side.
+    ports:
+      - "5175:5175"
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:5175/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    # `docker compose watch` syncs these into the container. No bind mount, so
+    # the image's node_modules stays intact and HMR needs no polling.
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/web/src
+          target: /app/src
+        - action: sync
+          path: ./apps/web/public
+          target: /app/public
+        - action: sync+restart
+          path: ./apps/web/vite.config.ts
+          target: /app/vite.config.ts
+        - action: sync+restart
+          path: ./apps/web/index.html
+          target: /app/index.html
+        - action: rebuild
+          path: ./apps/web/package.json
 
 volumes:
   db_data:

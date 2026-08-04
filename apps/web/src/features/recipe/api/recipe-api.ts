@@ -20,6 +20,7 @@ function poolSearchParams(query: PoolQuery, page: number): string {
   const params = new URLSearchParams({ page: String(page), page_size: String(PAGE_SIZE) });
   if (query.q) params.set("q", query.q);
   if (query.author_id) params.set("author_id", query.author_id);
+  if (query.ingredient_id) params.set("ingredient_id", query.ingredient_id);
   if (query.max_minutes !== undefined) params.set("max_minutes", String(query.max_minutes));
   return params.toString();
 }

@@ -1,19 +1,45 @@
 import { z } from "zod";
 
+import { cookSchema, type Cook } from "@/features/recipe/types/recipe-types";
 import { request } from "@/lib/api-client";
 
 import {
   commentPageSchema,
+  cookPageSchema,
   favoritePageSchema,
   followStatusSchema,
   type CommentPage,
+  type CookPage,
   type FavoritePage,
   type FollowStatus,
   type NewComment,
 } from "../types/social-types";
 
+const COOKS_PAGE_SIZE = 20;
+
+/** Public: anyone can look at a cook's profile, signed in or not. */
+export function fetchCook(cookId: string): Promise<Cook> {
+  return request(`/users/${cookId}`, cookSchema);
+}
+
 export function fetchFollowStatus(cookId: string, token: string): Promise<FollowStatus> {
   return request(`/cooks/${cookId}/follow`, followStatusSchema, { token });
+}
+
+export function fetchFollowing(page: number, token: string): Promise<CookPage> {
+  return request(
+    `/me/following?page=${page}&page_size=${COOKS_PAGE_SIZE}`,
+    cookPageSchema,
+    { token },
+  );
+}
+
+export function fetchFollowers(page: number, token: string): Promise<CookPage> {
+  return request(
+    `/me/followers?page=${page}&page_size=${COOKS_PAGE_SIZE}`,
+    cookPageSchema,
+    { token },
+  );
 }
 
 export function follow(cookId: string, token: string): Promise<void> {

@@ -23,10 +23,14 @@ class Recipe(UUIDMixin, TimestampMixin, SoftRemovalMixin, Base):
     intro: Mapped[str | None] = mapped_column(Text, default=None)
     servings: Mapped[int | None] = mapped_column(Integer, default=None)
     minutes: Mapped[int | None] = mapped_column(Integer, default=None)
-    # Structured on purpose: never parsed out of free text, never auto-fetched,
-    # validated against a host allowlist at the schema boundary.
-    source_url: Mapped[str | None] = mapped_column(String(500), default=None)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
+    # Denormalized so the pool never joins `favorite` just to show a number —
+    # that join fans out against the ingredient-filter subquery. Maintained by
+    # the favorite service as an atomic SQL expression, never read-modify-write.
+    # Not indexed yet: the index only earns its write cost once we sort by it.
+    favorites_count: Mapped[int] = mapped_column(
+        Integer, default=0, server_default="0", nullable=False
+    )
 
     # lazy="raise" so a forgotten eager load fails loudly instead of emitting a
     # lazy query inside async code.
