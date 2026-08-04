@@ -2,19 +2,28 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
+import { IngredientPicker } from "@/features/ingredient/components/ingredient-picker";
+import type { Ingredient } from "@/features/ingredient/types/ingredient-types";
 
-import { usePool } from "../api/recipe-queries";
-import { RecipeCard } from "./recipe-card";
+import type { PoolQuery } from "../types/recipe-types";
+import { RecipeGrid } from "./recipe-grid";
 
+const NOTHING_FOUND = "No encontramos nada con esa búsqueda.";
+const POOL_EMPTY = "Todavía no hay recetas. Subí la primera.";
+
+/** The public pool: free-text search plus a canonical-ingredient filter. */
 export function RecipePool(): React.JSX.Element {
   const [term, setTerm] = useState("");
-  const [query, setQuery] = useState<{ q?: string }>({});
-  const { data, isPending, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    usePool(query);
+  const [search, setSearch] = useState<string | undefined>(undefined);
+  const [ingredient, setIngredient] = useState<Ingredient | null>(null);
 
-  const recipes = data?.pages.flatMap((page) => page.data) ?? [];
-  const total = data?.pages[0]?.meta.total ?? 0;
+  // Both filters are server query params — the grid re-fetches when they
+  // change, it never slices a list it already loaded.
+  const query: PoolQuery = {
+    ...(search ? { q: search } : {}),
+    ...(ingredient ? { ingredient_id: ingredient.id } : {}),
+  };
+  const isFiltered = Boolean(search ?? ingredient);
 
   return (
     <div className="space-y-6">
@@ -22,8 +31,7 @@ export function RecipePool(): React.JSX.Element {
         className="flex gap-2"
         onSubmit={(event) => {
           event.preventDefault();
-          // Search is a server query param, never a filter over a loaded list.
-          setQuery(term.trim() ? { q: term.trim() } : {});
+          setSearch(term.trim() || undefined);
         }}
       >
         <Input
@@ -39,44 +47,9 @@ export function RecipePool(): React.JSX.Element {
         </Button>
       </form>
 
-      {isPending ? (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {[0, 1, 2, 3].map((key) => (
-            <Skeleton key={key} className="h-40 w-full" />
-          ))}
-        </div>
-      ) : null}
+      <IngredientPicker selected={ingredient} onSelect={setIngredient} />
 
-      {isError ? (
-        <p role="alert" className="text-destructive">
-          No pudimos cargar las recetas.
-        </p>
-      ) : null}
-
-      {!isPending && recipes.length === 0 ? (
-        <p className="text-muted-foreground">
-          {query.q ? "No encontramos nada con esa búsqueda." : "Todavía no hay recetas. Subí la primera."}
-        </p>
-      ) : null}
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        {recipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
-        ))}
-      </div>
-
-      {hasNextPage ? (
-        <Button
-          variant="secondary"
-          className="w-full"
-          disabled={isFetchingNextPage}
-          onClick={() => {
-            void fetchNextPage();
-          }}
-        >
-          {isFetchingNextPage ? "Cargando…" : `Ver más (${recipes.length} de ${total})`}
-        </Button>
-      ) : null}
+      <RecipeGrid query={query} emptyMessage={isFiltered ? NOTHING_FOUND : POOL_EMPTY} />
     </div>
   );
 }
