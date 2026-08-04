@@ -46,7 +46,7 @@ concern and not a copy concern.
 - User accounts, normal email + password auth
 - Recipe authoring: own instructions, own photos
 - Photos of **the process**, not just the finished dish — this is a deliberate differentiator
-- Optional external `source_url` when a recipe came from elsewhere
+- No outbound links of any kind — see the decision below
 - Public searchable recipe pool with filtering
 - Follow other cooks
 - Favorites / saved recipes
@@ -83,7 +83,7 @@ they have, and it doesn't try to.
 | Phase B cut | High user effort, hard data problem, unproven demand |
 | Structured ingredients from migration #1 | Shopping list needs it; retrofitting is a rewrite. See `docs/ingredients-model.md` |
 | Users never create canonical ingredients | They type free text; matching happens behind the scenes |
-| External links allowed, but constrained | Stored `source_url`, domain allowlist, no auto-fetched previews, interstitial on tap. User text is never auto-linkified. |
+| No external links at all | Reversed 2026-08-04. Originally a constrained `source_url` (allowlist, no previews, interstitial). Removed because the product is the food *you* cook — a recipe that points elsewhere is a link post, and the pool fills with traffic to other sites instead of home cooking. User text was never linkified and still isn't. |
 | Moderation from day one | A public pool with photos needs it regardless of store rules |
 | Deferred: private messages | Comments + the "help me out" flow probably cover the need. Revisit only if real usage shows otherwise. |
 

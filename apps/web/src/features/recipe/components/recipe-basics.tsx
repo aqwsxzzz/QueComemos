@@ -68,19 +68,6 @@ export function RecipeBasics({ draft, dispatch }: RecipeBasicsProps): React.JSX.
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="sourceUrl">¿La sacaste de algún lado? (opcional)</Label>
-        <Input
-          id="sourceUrl"
-          type="url"
-          inputMode="url"
-          value={draft.sourceUrl}
-          placeholder="https://…"
-          onChange={(event) => {
-            dispatch({ type: "field", field: "sourceUrl", value: event.target.value });
-          }}
-        />
-      </div>
     </fieldset>
   );
 }

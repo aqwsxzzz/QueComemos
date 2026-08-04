@@ -98,7 +98,6 @@ async def create(db: AsyncSession, author: User, payload: RecipeCreate) -> Recip
         intro=payload.intro,
         servings=payload.servings,
         minutes=payload.minutes,
-        source_url=payload.source_url,
         published_at=datetime.now(UTC),
     )
     db.add(recipe)

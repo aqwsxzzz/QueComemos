@@ -7,13 +7,12 @@ export interface DraftState {
   intro: string;
   servings: string;
   minutes: string;
-  sourceUrl: string;
   ingredients: string[];
   steps: string[];
 }
 
 export type DraftAction =
-  | { type: "field"; field: "title" | "intro" | "servings" | "minutes" | "sourceUrl"; value: string }
+  | { type: "field"; field: "title" | "intro" | "servings" | "minutes"; value: string }
   | { type: "line"; list: "ingredients" | "steps"; index: number; value: string }
   | { type: "add"; list: "ingredients" | "steps" }
   | { type: "remove"; list: "ingredients" | "steps"; index: number };
@@ -23,7 +22,6 @@ export const EMPTY_DRAFT: DraftState = {
   intro: "",
   servings: "",
   minutes: "",
-  sourceUrl: "",
   ingredients: ["", "", ""],
   steps: ["", ""],
 };
@@ -64,7 +62,6 @@ export function toPayload(state: DraftState): RecipeDraft {
     intro: state.intro.trim() || null,
     servings: toNumber(state.servings),
     minutes: toNumber(state.minutes),
-    source_url: state.sourceUrl.trim() || null,
     ingredients: state.ingredients
       .map((raw_text) => raw_text.trim())
       .filter(Boolean)

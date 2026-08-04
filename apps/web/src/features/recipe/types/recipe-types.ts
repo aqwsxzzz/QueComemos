@@ -34,7 +34,6 @@ export const recipeSummarySchema = z.object({
 });
 
 export const recipeSchema = recipeSummarySchema.extend({
-  source_url: z.string().nullable(),
   ingredients: z.array(recipeIngredientSchema),
   steps: z.array(recipeStepSchema),
 });
@@ -74,7 +73,6 @@ export interface RecipeDraft {
   intro: string | null;
   servings: number | null;
   minutes: number | null;
-  source_url: string | null;
   ingredients: { raw_text: string }[];
   steps: { text: string }[];
 }

@@ -1,34 +1,17 @@
 """Recipe request/response shapes.
 
-`source_url` is validated against a host allowlist here, at the boundary, and is
-never fetched server-side. User prose is never scanned for links.
+Recipes carry no outbound links at all: the product is what you cook, not a
+pointer somewhere else. User prose is never scanned for links either.
 """
 
 import uuid
 from datetime import datetime
-from urllib.parse import urlparse
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 
-from quecomemos.core.config import get_settings
 from quecomemos.core.filters import FilterParams
 from quecomemos.features.recipe.units import Unit
 from quecomemos.features.user.schemas import CookRead
-
-
-def _validate_source_url(value: str | None) -> str | None:
-    if value is None:
-        return None
-
-    parsed = urlparse(value)
-    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
-        raise ValueError("El enlace debe empezar con http:// o https://")
-
-    host = parsed.hostname.lower().removeprefix("www.")
-    allowed = get_settings().allowed_source_hosts
-    if host not in allowed and not any(host.endswith(f".{entry}") for entry in allowed):
-        raise ValueError(f"No aceptamos enlaces de {host} todavía")
-    return value
 
 
 class RecipeIngredientWrite(BaseModel):
@@ -71,11 +54,8 @@ class RecipeCreate(BaseModel):
     intro: str | None = Field(default=None, max_length=2000)
     servings: int | None = Field(default=None, ge=1, le=100)
     minutes: int | None = Field(default=None, ge=1, le=1440)
-    source_url: str | None = Field(default=None, max_length=500)
     ingredients: list[RecipeIngredientWrite] = Field(min_length=1, max_length=60)
     steps: list[RecipeStepWrite] = Field(min_length=1, max_length=40)
-
-    _check_source_url = field_validator("source_url")(_validate_source_url)
 
 
 class RecipeUpdate(BaseModel):
@@ -85,11 +65,8 @@ class RecipeUpdate(BaseModel):
     intro: str | None = Field(default=None, max_length=2000)
     servings: int | None = Field(default=None, ge=1, le=100)
     minutes: int | None = Field(default=None, ge=1, le=1440)
-    source_url: str | None = Field(default=None, max_length=500)
     ingredients: list[RecipeIngredientWrite] | None = Field(default=None, max_length=60)
     steps: list[RecipeStepWrite] | None = Field(default=None, max_length=40)
-
-    _check_source_url = field_validator("source_url")(_validate_source_url)
 
 
 class RecipeSummary(BaseModel):
@@ -109,7 +86,6 @@ class RecipeSummary(BaseModel):
 class RecipeRead(RecipeSummary):
     model_config = ConfigDict(from_attributes=True, extra="forbid")
 
-    source_url: str | None
     ingredients: list[RecipeIngredientRead]
     steps: list[RecipeStepRead]
 

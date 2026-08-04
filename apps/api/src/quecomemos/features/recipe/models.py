@@ -23,9 +23,6 @@ class Recipe(UUIDMixin, TimestampMixin, SoftRemovalMixin, Base):
     intro: Mapped[str | None] = mapped_column(Text, default=None)
     servings: Mapped[int | None] = mapped_column(Integer, default=None)
     minutes: Mapped[int | None] = mapped_column(Integer, default=None)
-    # Structured on purpose: never parsed out of free text, never auto-fetched,
-    # validated against a host allowlist at the schema boundary.
-    source_url: Mapped[str | None] = mapped_column(String(500), default=None)
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
 
     # lazy="raise" so a forgotten eager load fails loudly instead of emitting a

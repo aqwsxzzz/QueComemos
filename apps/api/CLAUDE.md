@@ -154,10 +154,9 @@ auth:
   note: the recipe pool is publicly readable — use the optional dep on browse/search routes
 
 user_generated_content:
-  source_url:
-    - stored as a structured column, never parsed out of free text
-    - validated against a domain allowlist at the schema boundary
-    - never server-side fetched for previews
+  outbound_links:
+    - none: recipes carry no URL field, and user text is never parsed for links
+    - reversed 2026-08-04; see the PRODUCT.md decisions table
   moderation:
     - report, block, and hard-remove (content + author) exist from phase A
     - removal must cascade or soft-delete consistently — decide once, apply everywhere

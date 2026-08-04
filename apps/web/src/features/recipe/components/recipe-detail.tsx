@@ -4,7 +4,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { useRecipe, useRecipePhotos } from "../api/recipe-queries";
 import { RecipeSteps } from "./recipe-steps";
-import { SourceLink } from "./source-link";
 
 export function RecipeDetail({ recipeId }: { recipeId: string }): React.JSX.Element {
   const { data: recipe, isPending, isError } = useRecipe(recipeId);
@@ -34,7 +33,6 @@ export function RecipeDetail({ recipeId }: { recipeId: string }): React.JSX.Elem
           {recipe.servings ? <Badge variant="secondary">{recipe.servings} porciones</Badge> : null}
         </div>
         {recipe.intro ? <p className="whitespace-pre-line">{recipe.intro}</p> : null}
-        {recipe.source_url ? <SourceLink url={recipe.source_url} /> : null}
       </header>
 
       {cover ? (

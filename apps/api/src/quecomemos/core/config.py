@@ -2,7 +2,6 @@
 
 from functools import lru_cache
 
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -32,20 +31,9 @@ class Settings(BaseSettings):
     storage_bucket: str = "quecomemos-media"
     storage_region: str = "auto"
 
-    # Recipes may reference where they came from, but only from known hosts.
-    source_url_allowlist: str = Field(
-        default="youtube.com,youtu.be,instagram.com,tiktok.com,cookpad.com,recetasgratis.net"
-    )
-
     @property
     def cors_origins(self) -> list[str]:
         return [origin.strip() for origin in self.allowed_origins.split(",") if origin.strip()]
-
-    @property
-    def allowed_source_hosts(self) -> frozenset[str]:
-        return frozenset(
-            host.strip().lower() for host in self.source_url_allowlist.split(",") if host.strip()
-        )
 
 
 @lru_cache
