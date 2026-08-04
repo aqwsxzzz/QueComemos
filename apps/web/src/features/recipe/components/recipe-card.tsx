@@ -27,9 +27,25 @@ export function RecipeCard({ recipe }: { recipe: RecipeSummary }): React.JSX.Ele
           <p className="line-clamp-2 text-sm text-muted-foreground">{recipe.intro}</p>
         ) : null}
         <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-          <span>{recipe.author.display_name}</span>
+          {/* `relative` lifts the author link above the title's click overlay,
+              so it stays independently clickable inside the card. */}
+          <Link
+            to="/cocineros/$cookId"
+            params={{ cookId: recipe.author.id }}
+            className="relative hover:text-foreground hover:underline"
+          >
+            {recipe.author.display_name}
+          </Link>
           {recipe.minutes ? <Badge variant="secondary">{recipe.minutes} min</Badge> : null}
           {recipe.servings ? <Badge variant="secondary">{recipe.servings} porciones</Badge> : null}
+          {/* Hidden at zero: "0 guardados" on every card is noise, not signal. */}
+          {recipe.favorites_count > 0 ? (
+            <Badge variant="secondary">
+              {recipe.favorites_count === 1
+                ? "1 guardado"
+                : `${String(recipe.favorites_count)} guardados`}
+            </Badge>
+          ) : null}
         </div>
       </CardContent>
     </Card>

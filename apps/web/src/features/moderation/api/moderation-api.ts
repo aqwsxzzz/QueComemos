@@ -1,6 +1,17 @@
 import { z } from "zod";
 
+import { cookSchema } from "@/features/recipe/types/recipe-types";
 import { request } from "@/lib/api-client";
+
+/** The API embeds the blocked cook so the list can show a name, not a UUID. */
+export const blockSchema = z.object({
+  id: z.string(),
+  blocked_id: z.string(),
+  blocked: cookSchema,
+  created_at: z.string(),
+});
+
+export type Block = z.infer<typeof blockSchema>;
 
 export const REPORT_REASONS = [
   { value: "spam", label: "Spam o publicidad" },
@@ -30,4 +41,12 @@ export function blockUser(blockedId: string, token: string): Promise<unknown> {
     body: { blocked_id: blockedId },
     token,
   });
+}
+
+export function fetchBlocks(token: string): Promise<Block[]> {
+  return request("/blocks", z.array(blockSchema), { token });
+}
+
+export function unblockUser(blockedId: string, token: string): Promise<void> {
+  return request(`/blocks/${blockedId}`, z.void(), { method: "DELETE", token });
 }

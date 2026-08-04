@@ -25,10 +25,16 @@ export const favoritePageSchema = z.object({
   meta: pageMetaSchema,
 });
 
+export const cookPageSchema = z.object({
+  data: z.array(cookSchema),
+  meta: pageMetaSchema,
+});
+
 export type FollowStatus = z.infer<typeof followStatusSchema>;
 export type Comment = z.infer<typeof commentSchema>;
 export type CommentPage = z.infer<typeof commentPageSchema>;
 export type FavoritePage = z.infer<typeof favoritePageSchema>;
+export type CookPage = z.infer<typeof cookPageSchema>;
 
 export interface NewComment {
   body: string;

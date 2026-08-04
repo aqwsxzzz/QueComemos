@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,6 +54,25 @@ function ProfilePage() {
               </div>
             </dl>
           ) : null}
+
+          {/* The nav bar is full on phones, so the less-used surfaces hang off
+              the profile page rather than adding a fifth thumb target. */}
+          <nav className="flex flex-col gap-2" aria-label="Tu cuenta">
+            {user ? (
+              <Button asChild variant="secondary" className="justify-start">
+                <Link to="/cocineros/$cookId" params={{ cookId: user.id }}>
+                  Ver tu perfil público
+                </Link>
+              </Button>
+            ) : null}
+            <Button asChild variant="secondary" className="justify-start">
+              <Link to="/comunidad">Tu comunidad</Link>
+            </Button>
+            <Button asChild variant="secondary" className="justify-start">
+              <Link to="/bloqueados">Bloqueados</Link>
+            </Button>
+          </nav>
+
           <Button variant="secondary" onClick={handleSignOut} disabled={signingOut}>
             {signingOut ? "Cerrando…" : "Cerrar sesión"}
           </Button>

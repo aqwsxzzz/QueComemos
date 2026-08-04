@@ -10,17 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BloqueadosRouteImport } from './routes/bloqueados'
+import { Route as ComunidadRouteImport } from './routes/comunidad'
 import { Route as CrearCuentaRouteImport } from './routes/crear-cuenta'
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as GuardadasRouteImport } from './routes/guardadas'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as CocinerosCookIdRouteImport } from './routes/cocineros.$cookId'
 import { Route as RecetasIndexRouteImport } from './routes/recetas.index'
 import { Route as RecetasRecipeIdRouteImport } from './routes/recetas.$recipeId'
 import { Route as RecetasNuevaRouteImport } from './routes/recetas.nueva'
+import { Route as RecetasRecipeIdEditarRouteImport } from './routes/recetas.$recipeId_.editar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BloqueadosRoute = BloqueadosRouteImport.update({
+  id: '/bloqueados',
+  path: '/bloqueados',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComunidadRoute = ComunidadRouteImport.update({
+  id: '/comunidad',
+  path: '/comunidad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CrearCuentaRoute = CrearCuentaRouteImport.update({
@@ -43,6 +57,11 @@ const PerfilRoute = PerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CocinerosCookIdRoute = CocinerosCookIdRouteImport.update({
+  id: '/cocineros/$cookId',
+  path: '/cocineros/$cookId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecetasIndexRoute = RecetasIndexRouteImport.update({
   id: '/recetas/',
   path: '/recetas/',
@@ -58,80 +77,113 @@ const RecetasNuevaRoute = RecetasNuevaRouteImport.update({
   path: '/recetas/nueva',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecetasRecipeIdEditarRoute = RecetasRecipeIdEditarRouteImport.update({
+  id: '/recetas/$recipeId_/editar',
+  path: '/recetas/$recipeId/editar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bloqueados': typeof BloqueadosRoute
+  '/comunidad': typeof ComunidadRoute
   '/crear-cuenta': typeof CrearCuentaRoute
   '/entrar': typeof EntrarRoute
   '/guardadas': typeof GuardadasRoute
   '/perfil': typeof PerfilRoute
+  '/cocineros/$cookId': typeof CocinerosCookIdRoute
   '/recetas/$recipeId': typeof RecetasRecipeIdRoute
   '/recetas/nueva': typeof RecetasNuevaRoute
   '/recetas/': typeof RecetasIndexRoute
+  '/recetas/$recipeId/editar': typeof RecetasRecipeIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bloqueados': typeof BloqueadosRoute
+  '/comunidad': typeof ComunidadRoute
   '/crear-cuenta': typeof CrearCuentaRoute
   '/entrar': typeof EntrarRoute
   '/guardadas': typeof GuardadasRoute
   '/perfil': typeof PerfilRoute
+  '/cocineros/$cookId': typeof CocinerosCookIdRoute
   '/recetas/$recipeId': typeof RecetasRecipeIdRoute
   '/recetas/nueva': typeof RecetasNuevaRoute
   '/recetas': typeof RecetasIndexRoute
+  '/recetas/$recipeId/editar': typeof RecetasRecipeIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bloqueados': typeof BloqueadosRoute
+  '/comunidad': typeof ComunidadRoute
   '/crear-cuenta': typeof CrearCuentaRoute
   '/entrar': typeof EntrarRoute
   '/guardadas': typeof GuardadasRoute
   '/perfil': typeof PerfilRoute
+  '/cocineros/$cookId': typeof CocinerosCookIdRoute
   '/recetas/$recipeId': typeof RecetasRecipeIdRoute
   '/recetas/nueva': typeof RecetasNuevaRoute
   '/recetas/': typeof RecetasIndexRoute
+  '/recetas/$recipeId_/editar': typeof RecetasRecipeIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/bloqueados'
+    | '/comunidad'
     | '/crear-cuenta'
     | '/entrar'
     | '/guardadas'
     | '/perfil'
+    | '/cocineros/$cookId'
     | '/recetas/$recipeId'
     | '/recetas/nueva'
     | '/recetas/'
+    | '/recetas/$recipeId/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/bloqueados'
+    | '/comunidad'
     | '/crear-cuenta'
     | '/entrar'
     | '/guardadas'
     | '/perfil'
+    | '/cocineros/$cookId'
     | '/recetas/$recipeId'
     | '/recetas/nueva'
     | '/recetas'
+    | '/recetas/$recipeId/editar'
   id:
     | '__root__'
     | '/'
+    | '/bloqueados'
+    | '/comunidad'
     | '/crear-cuenta'
     | '/entrar'
     | '/guardadas'
     | '/perfil'
+    | '/cocineros/$cookId'
     | '/recetas/$recipeId'
     | '/recetas/nueva'
     | '/recetas/'
+    | '/recetas/$recipeId_/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BloqueadosRoute: typeof BloqueadosRoute
+  ComunidadRoute: typeof ComunidadRoute
   CrearCuentaRoute: typeof CrearCuentaRoute
   EntrarRoute: typeof EntrarRoute
   GuardadasRoute: typeof GuardadasRoute
   PerfilRoute: typeof PerfilRoute
+  CocinerosCookIdRoute: typeof CocinerosCookIdRoute
   RecetasRecipeIdRoute: typeof RecetasRecipeIdRoute
   RecetasNuevaRoute: typeof RecetasNuevaRoute
   RecetasIndexRoute: typeof RecetasIndexRoute
+  RecetasRecipeIdEditarRoute: typeof RecetasRecipeIdEditarRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -141,6 +193,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bloqueados': {
+      id: '/bloqueados'
+      path: '/bloqueados'
+      fullPath: '/bloqueados'
+      preLoaderRoute: typeof BloqueadosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comunidad': {
+      id: '/comunidad'
+      path: '/comunidad'
+      fullPath: '/comunidad'
+      preLoaderRoute: typeof ComunidadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/crear-cuenta': {
@@ -171,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cocineros/$cookId': {
+      id: '/cocineros/$cookId'
+      path: '/cocineros/$cookId'
+      fullPath: '/cocineros/$cookId'
+      preLoaderRoute: typeof CocinerosCookIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/recetas/': {
       id: '/recetas/'
       path: '/recetas'
@@ -192,18 +265,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecetasNuevaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recetas/$recipeId_/editar': {
+      id: '/recetas/$recipeId_/editar'
+      path: '/recetas/$recipeId/editar'
+      fullPath: '/recetas/$recipeId/editar'
+      preLoaderRoute: typeof RecetasRecipeIdEditarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BloqueadosRoute: BloqueadosRoute,
+  ComunidadRoute: ComunidadRoute,
   CrearCuentaRoute: CrearCuentaRoute,
   EntrarRoute: EntrarRoute,
   GuardadasRoute: GuardadasRoute,
   PerfilRoute: PerfilRoute,
+  CocinerosCookIdRoute: CocinerosCookIdRoute,
   RecetasRecipeIdRoute: RecetasRecipeIdRoute,
   RecetasNuevaRoute: RecetasNuevaRoute,
   RecetasIndexRoute: RecetasIndexRoute,
+  RecetasRecipeIdEditarRoute: RecetasRecipeIdEditarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
