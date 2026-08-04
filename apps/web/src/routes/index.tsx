@@ -11,7 +11,7 @@ function HomePage() {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-2xl flex-col justify-center gap-6 px-6 py-12">
+    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-6 px-6 py-12">
       <div className="space-y-3">
         <h1 className="text-3xl font-semibold tracking-tight">Que Comemos?</h1>
         <p className="text-muted-foreground">

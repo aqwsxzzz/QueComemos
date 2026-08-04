@@ -17,7 +17,7 @@ export function AuthFormShell({
   footer,
 }: AuthFormShellProps): React.JSX.Element {
   return (
-    <main className="flex min-h-dvh items-center justify-center px-4 py-10">
+    <main className="flex flex-1 items-center justify-center px-4 py-10">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">{title}</CardTitle>
